@@ -125,9 +125,15 @@ void ProcessSystem::executeNext() {
     cout << "\n=== Executando Próximo Processo ===" << endl;
     
     Process* process = processQueue.dequeue();
-    process->execute();
+    if(process->execute()) {
+        cout << "Processo " << process->getPID() << " executado com sucesso!" << endl;
+
+    } else {
+        cout << "Erro ao executar o processo " << process->getPID() << "!" << endl;
+    }
+
     delete process;
-    
+
     cout << "Processo executado e removido da fila!" << endl;
 }
 
@@ -142,7 +148,11 @@ void ProcessSystem::executeSpecific() {
     
     Process* process = processQueue.findByPID(pid);
      if (process) {
-         process->execute();
+         if(process->execute()){
+                cout << "Processo " << pid << " executado com sucesso!" << endl;
+            } else {
+                cout << "Erro ao executar o processo " << pid << "!" << endl;
+         }
          delete process;
          cout << "Processo " << pid << " executado!" << endl;
      } else {
