@@ -1,4 +1,4 @@
-#include "../include/queue/ProcessNode.h"
+#include "queue/ProcessNode.h"
 
 ProcessNode::ProcessNode(Process* proc) : process(proc), next(nullptr) {
     // ctor

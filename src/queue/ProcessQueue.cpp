@@ -1,4 +1,4 @@
-#include "../include/queue/ProcessQueue.h"
+#include "queue/ProcessQueue.h"
 #include <fstream>
 
 using namespace std;
@@ -13,7 +13,7 @@ ProcessQueue::~ProcessQueue() {
 
 void ProcessQueue::enqueue(Process* process) {
     if (process == nullptr) {
-        std::cerr << "Erro: Tentativa de adicionar processo nulo à fila." << std::endl;
+        cerr << "Erro: Tentativa de adicionar processo nulo à fila." << endl;
         return;
     }
     
@@ -31,7 +31,7 @@ void ProcessQueue::enqueue(Process* process) {
 
 Process* ProcessQueue::dequeue() {
     if (isEmpty()) {
-        std::cerr << "Erro: Tentativa de remover de fila vazia." << std::endl;
+        cerr << "Erro: Tentativa de remover de fila vazia." << endl;
         return nullptr;
     }
     
@@ -129,35 +129,35 @@ void ProcessQueue::clear() {
 
 void ProcessQueue::printQueue() const {
     if (isEmpty()) {
-        std::cout << "Fila de processos vazia." << std::endl;
+        cout << "Fila de processos vazia." << endl;
         return;
     }
     
-    std::cout << "=== FILA DE PROCESSOS ===" << std::endl;
-    std::cout << "Total de processos: " << size << std::endl;
-    std::cout << "-------------------------" << std::endl;
+    cout << "=== FILA DE PROCESSOS ===" << endl;
+    cout << "Total de processos: " << size << endl;
+    cout << "-------------------------" << endl;
     
     ProcessNode* current = front;
     int position = 1;
     
     while (current != nullptr) {
-        std::cout << "Posição " << position << ": ";
-        // Aqui você pode chamar um método toString() do Process
-        // ou implementar a lógica de impressão específica
+        cout << "Posição " << position << ": ";
         current->getProcess()->printInfo();
-        std::cout << std::endl;
+        cout << endl;
         
         current = current->getNext();
         position++;
     }
     
-    std::cout << "=========================" << std::endl;
+    cout << "=========================" << endl;
 }
 
-void ProcessQueue::saveToFile(const std::string& filename) const {
+bool ProcessQueue::saveToFile(const string& filename) const {
     cout << "Método saveToFile não implementado ainda." << endl;
+    return false;
 }
 
-void ProcessQueue::loadFromFile(const std::string& filename) {
+bool ProcessQueue::loadFromFile(const string& filename) {
     cout << "Método loadFromFile não implementado ainda." << endl;
+    return false;
 }

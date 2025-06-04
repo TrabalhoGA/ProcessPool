@@ -2,7 +2,7 @@
 #ifndef PROCESSNODE_H
 #define PROCESSNODE_H
 
-#include "../process/Process.h"
+#include "process/Process.h"
 
 class ProcessNode {
     private:

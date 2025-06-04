@@ -3,7 +3,7 @@
 #define PROCESSQUEUE_H
 
 #include "ProcessNode.h"
-#include "../process/Process.h"
+#include "process/Process.h"
 #include <iostream>
 
 class ProcessQueue {
@@ -31,8 +31,8 @@ public:
     
     void printQueue() const;
     
-    void saveToFile(const std::string& filename) const;
-    void loadFromFile(const std::string& filename);
+    bool saveToFile(const std::string& filename) const;
+    bool loadFromFile(const std::string& filename);
     
     // Desabilita cópia e atribuição
     ProcessQueue(const ProcessQueue& other) = delete; 
