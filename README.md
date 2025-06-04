@@ -19,7 +19,6 @@ ProcessPool/
 │       └── ProcessSystem.h
 ├── src/
 │   ├── process/
-│   │   ├── Process.cpp
 │   │   ├── ComputingProcess.cpp
 │   │   ├── WritingProcess.cpp
 │   │   ├── ReadingProcess.cpp
@@ -33,7 +32,10 @@ ProcessPool/
 │       └── ProcessSystem.cpp
 ├── data/
 │   └── computation.txt
-└── Makefile
+├── .gitignore
+├── LICENSE
+├── Makefile
+└── README.md
 ```
 # Relacionamento das Classes
 ## Hierarquia de Herança
@@ -58,7 +60,7 @@ ProcessPool/
 
 ## Responsabilidades por Arquivo
 
-### Process.h/.cpp:
+### Process.h:
 - Classe base abstrata com pid e método virtual execute()
 
 ### ComputingProcess.h/.cpp:
