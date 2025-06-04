@@ -13,6 +13,10 @@ class Process {
 
         // Método vitual puro que deve ser implementado por todas as subclasses
         virtual bool execute() = 0;
+        virtual void printInfo() const = 0;
+
+        int getPID() const { return pid; }
+        void setPID(int id) { pid = id; }
 
     protected:
         int pid; 
