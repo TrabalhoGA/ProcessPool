@@ -1,6 +1,8 @@
 # Estrutura de Diretórios
 ```
 ProcessPool/
+├── app/
+│   └── main.cpp
 ├── include/
 │   ├── process/
 │   │   ├── Process.h
@@ -11,7 +13,8 @@ ProcessPool/
 │   ├── expression/
 │   │   └── Expression.h
 │   ├── queue/
-│   │   └── ProcessQueue.h
+│   │   ├── ProcessQueue.h
+│   │   └── ProcessNode.h
 │   └── system/
 │       └── ProcessSystem.h
 ├── src/
@@ -24,10 +27,10 @@ ProcessPool/
 │   ├── expression/
 │   │   └── Expression.cpp
 │   ├── queue/
-│   │   └── ProcessQueue.cpp
-│   ├── system/
-│   │   └── ProcessSystem.cpp
-│   └── main.cpp
+│   │   ├── ProcessQueue.cpp
+│   │   └── ProcessNode.cpp
+│   └── system/
+│       └── ProcessSystem.cpp
 ├── data/
 │   └── computation.txt
 └── Makefile
@@ -43,6 +46,7 @@ ProcessPool/
 ## Classes de Apoio
 - Expression: classe para representar e calcular expressões aritméticas
 - ProcessQueue: implementação da fila dinâmica para gerenciar os processos
+- ProcessNode: representa cada elemento da fila dinâmica de processos (nó da fila)
 - ProcessSystem: classe principal que gerencia todo o sistema (menu, operações)
 
 ## Relacionamentos de Composição/Agregação
@@ -50,6 +54,7 @@ ProcessPool/
 - ComputingProcess tem uma Expression
 - ReadingProcess tem referência para ProcessQueue (para adicionar processos lidos)
 - PrintingProcess tem referência para ProcessQueue (para imprimir a fila)
+- ProcessQueue é composta por vários ProcessNode (cada nó representa um processo na fila)
 
 ## Responsabilidades por Arquivo
 
@@ -73,6 +78,9 @@ ProcessPool/
 
 ### ProcessQueue.h/.cpp:
 - Implementa fila dinâmica com operações de inserir, remover, buscar por PID
+
+### ProcessNode.h/.cpp:
+- Define a estrutura do nó da fila dinâmica de processos. Cada nó armazena um ponteiro para um objeto Process e um ponteiro para o próximo nó da fila. Usado internamente pela ProcessQueue.
 
 ### ProcessSystem.h/.cpp:
 - Gerencia menu, criação de processos, execução, salvamento/carregamento
