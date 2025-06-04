@@ -38,3 +38,6 @@
 
 # Visual Studio Code files
 .vscode/
+
+# Project files
+ProcessPool/
