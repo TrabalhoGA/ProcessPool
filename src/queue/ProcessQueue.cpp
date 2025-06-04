@@ -16,16 +16,13 @@ void ProcessQueue::enqueue(Process* process) {
         cerr << "Erro: Tentativa de adicionar processo nulo à fila." << endl;
         return;
     }
-    
     ProcessNode* newNode = new ProcessNode(process);
-    
     if (isEmpty()) {
         front = rear = newNode;
     } else {
-        rear->setNext(newNode);
+        rear->next = newNode;
         rear = newNode;
     }
-    
     size++;
 }
 
@@ -34,19 +31,14 @@ Process* ProcessQueue::dequeue() {
         cerr << "Erro: Tentativa de remover de fila vazia." << endl;
         return nullptr;
     }
-    
     ProcessNode* nodeToRemove = front;
-    Process* process = nodeToRemove->getProcess();
-    
-    front = front->getNext();
-    
-    if (front == nullptr) {  
+    Process* process = nodeToRemove->process;
+    front = front->next;
+    if (front == nullptr) {
         rear = nullptr;
     }
-    
     delete nodeToRemove;
     size--;
-    
     return process;
 }
 
@@ -54,19 +46,17 @@ Process* ProcessQueue::peek() const {
     if (isEmpty()) {
         return nullptr;
     }
-    return front->getProcess();
+    return front->process;
 }
 
 Process* ProcessQueue::findByPID(int pid) const {
     ProcessNode* current = front;
-    
     while (current != nullptr) {
-        if (current->getProcess()->getPID() == pid) {
-            return current->getProcess();
+        if (current->process->getPID() == pid) {
+            return current->process;
         }
-        current = current->getNext();
+        current = current->next;
     }
-    
     return nullptr;
 }
 
@@ -74,33 +64,25 @@ Process* ProcessQueue::removeByPID(int pid) {
     if (isEmpty()) {
         return nullptr;
     }
-    
-    if (front->getProcess()->getPID() == pid) {
+    if (front->process->getPID() == pid) {
         return dequeue();
     }
-    
     ProcessNode* current = front;
     ProcessNode* previous = nullptr;
-    
-    while (current != nullptr && current->getProcess()->getPID() != pid) {
+    while (current != nullptr && current->process->getPID() != pid) {
         previous = current;
-        current = current->getNext();
+        current = current->next;
     }
-    
     if (current == nullptr) {
         return nullptr;
     }
-    
-    Process* process = current->getProcess();
-    previous->setNext(current->getNext());
-    
+    Process* process = current->process;
+    previous->next = current->next;
     if (current == rear) {
         rear = previous;
     }
-    
     delete current;
     size--;
-    
     return process;
 }
 
@@ -108,7 +90,6 @@ bool ProcessQueue::removeSpecific(Process* process) {
     if (process == nullptr || isEmpty()) {
         return false;
     }
-    
     return removeByPID(process->getPID()) != nullptr;
 }
 
@@ -132,23 +113,18 @@ void ProcessQueue::printQueue() const {
         cout << "Fila de processos vazia." << endl;
         return;
     }
-    
     cout << "=== FILA DE PROCESSOS ===" << endl;
     cout << "Total de processos: " << size << endl;
     cout << "-------------------------" << endl;
-    
     ProcessNode* current = front;
     int position = 1;
-    
     while (current != nullptr) {
         cout << "Posição " << position << ": ";
-        current->getProcess()->printInfo();
+        current->process->printInfo();
         cout << endl;
-        
-        current = current->getNext();
+        current = current->next;
         position++;
     }
-    
     cout << "=========================" << endl;
 }
 

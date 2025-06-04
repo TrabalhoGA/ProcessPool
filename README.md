@@ -13,8 +13,7 @@ ProcessPool/
 │   ├── expression/
 │   │   └── Expression.h
 │   ├── queue/
-│   │   ├── ProcessQueue.h
-│   │   └── ProcessNode.h
+│   │   └── ProcessQueue.h
 │   └── system/
 │       └── ProcessSystem.h
 ├── src/
@@ -26,8 +25,7 @@ ProcessPool/
 │   ├── expression/
 │   │   └── Expression.cpp
 │   ├── queue/
-│   │   ├── ProcessQueue.cpp
-│   │   └── ProcessNode.cpp
+│   │   └── ProcessQueue.cpp
 │   └── system/
 │       └── ProcessSystem.cpp
 ├── data/
@@ -48,7 +46,7 @@ ProcessPool/
 ## Classes de Apoio
 - Expression: classe para representar e calcular expressões aritméticas
 - ProcessQueue: implementação da fila dinâmica para gerenciar os processos
-- ProcessNode: representa cada elemento da fila dinâmica de processos (nó da fila)
+- ProcessNode: classe aninhada privada dentro de ProcessQueue, representa cada elemento da fila dinâmica de processos (nó da fila)
 - ProcessSystem: classe principal que gerencia todo o sistema (menu, operações)
 
 ## Relacionamentos de Composição/Agregação
@@ -80,9 +78,7 @@ ProcessPool/
 
 ### ProcessQueue.h/.cpp:
 - Implementa fila dinâmica com operações de inserir, remover, buscar por PID
-
-### ProcessNode.h/.cpp:
-- Define a estrutura do nó da fila dinâmica de processos. Cada nó armazena um ponteiro para um objeto Process e um ponteiro para o próximo nó da fila. Usado internamente pela ProcessQueue.
+- Contém a definição da classe interna privada ProcessNode, que representa cada nó da fila
 
 ### ProcessSystem.h/.cpp:
 - Gerencia menu, criação de processos, execução, salvamento/carregamento

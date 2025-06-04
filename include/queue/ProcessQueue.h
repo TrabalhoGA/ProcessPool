@@ -2,15 +2,23 @@
 #ifndef PROCESSQUEUE_H
 #define PROCESSQUEUE_H
 
-#include "ProcessNode.h"
 #include "process/Process.h"
 #include <iostream>
 
 class ProcessQueue {
 private:
-    ProcessNode* front;  
-    ProcessNode* rear;   
-    int size;           
+    // Classe interna para nó da fila
+    class ProcessNode {
+    public:
+        Process* process;
+        ProcessNode* next;
+        ProcessNode(Process* proc) : process(proc), next(nullptr) {}
+        ~ProcessNode() { process = nullptr; next = nullptr; }
+    };
+
+    ProcessNode* front;
+    ProcessNode* rear;
+    int size;
 
 public:
     ProcessQueue();
@@ -19,7 +27,6 @@ public:
     void enqueue(Process* process);
     Process* dequeue();
     Process* peek() const;
-    
     
     Process* findByPID(int pid) const;
     Process* removeByPID(int pid);
