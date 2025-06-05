@@ -1,4 +1,5 @@
 #include "system/ProcessSystem.h"
+#include "process/WritingProcess.h"
 #include <iostream>
 #include <limits>
 
@@ -105,7 +106,14 @@ void ProcessSystem::createComputingProcess() {
 }
 
 void ProcessSystem::createWritingProcess() {
-    cout << "Método createWritingProcess não implementado ainda." << endl;
+    cout << "\n=== Criar Processo de Gravação ===" << endl;
+    cout << "Digite o PID para o processo: ";
+    int pid = getMenuChoice();
+
+    WritingProcess* process = new WritingProcess(pid);
+    processQueue.enqueue(process);
+
+    cout << "Processo de gravação criado e adicionado à fila com PID " << pid << "." << endl;
 }
 
 void ProcessSystem::createReadingProcess() {
