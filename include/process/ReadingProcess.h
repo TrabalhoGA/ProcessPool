@@ -3,20 +3,22 @@
 #define READING_PROCESS_H
 
 #include "Process.h"
+#include "../queue/ProcessQueue.h"
 
 using namespace std;
 class ReadingProcess : public Process {
     public:
-        ReadingProcess(int id);
+        ReadingProcess(int id, ProcessQueue* queue);
         virtual ~ReadingProcess();
 
-        bool execute() override;
+        virtual bool execute() override;
         void printInfo() const override;
         string toString() const override;
 
     protected:
 
     private:
+		ProcessQueue* processQueue;
 };
 
 #endif // READING_PROCESS_H
