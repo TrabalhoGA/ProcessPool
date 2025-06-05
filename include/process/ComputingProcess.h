@@ -8,16 +8,17 @@ using namespace std;
 
 class ComputingProcess : public Process {
     public:
-        ComputingProcess(int id);
+        ComputingProcess(int id, const string& expr);
         virtual ~ComputingProcess();
 
-        bool execute() override;
+        virtual bool execute() override;
         void printInfo() const override;
         string toString() const override;
 
     protected:
 
     private:
+        string expression;
 };
 
 #endif // COMPUTINGPROCESS_H
