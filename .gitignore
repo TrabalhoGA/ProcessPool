@@ -35,6 +35,7 @@
 *.suo
 *.user
 .vs/
+x64/
 
 # Visual Studio Code files
 .vscode/

@@ -7,10 +7,12 @@
 using namespace std;
 class ReadingProcess : public Process {
     public:
-        ReadingProcess();
+        ReadingProcess(int id);
         virtual ~ReadingProcess();
 
         bool execute() override;
+        void printInfo() const override;
+        string toString() const override;
 
     protected:
 

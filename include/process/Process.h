@@ -8,8 +8,8 @@ using namespace std;
 
 class Process {
     public:
-        Process();
-        virtual ~Process();
+        Process(int id) : pid(id) {};
+        virtual ~Process() {};
 
         // Método vitual puro que deve ser implementado por todas as subclasses
         virtual bool execute() = 0;

@@ -133,8 +133,6 @@ void ProcessSystem::executeNext() {
     }
 
     delete process;
-
-    cout << "Processo executado e removido da fila!" << endl;
 }
 
 void ProcessSystem::executeSpecific() {
@@ -157,9 +155,7 @@ void ProcessSystem::executeSpecific() {
          cout << "Processo " << pid << " executado!" << endl;
      } else {
          cout << "Processo com PID " << pid << " não encontrado!" << endl;
-     }
-    
-    cout << "Buscando e executando processo PID " << pid << "..." << endl;
+     }    
 }
 
 void ProcessSystem::printProcessQueue() {

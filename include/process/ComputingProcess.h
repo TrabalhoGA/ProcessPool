@@ -8,10 +8,12 @@ using namespace std;
 
 class ComputingProcess : public Process {
     public:
-        ComputingProcess();
+        ComputingProcess(int id);
         virtual ~ComputingProcess();
 
         bool execute() override;
+        void printInfo() const override;
+        string toString() const override;
 
     protected:
 

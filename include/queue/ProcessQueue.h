@@ -5,6 +5,8 @@
 #include "process/Process.h"
 #include <iostream>
 
+using namespace std;
+
 class ProcessQueue {
 private:
     // Classe interna para nó da fila
@@ -38,8 +40,8 @@ public:
     
     void printQueue() const;
     
-    bool saveToFile(const std::string& filename) const;
-    bool loadFromFile(const std::string& filename);
+    bool saveToFile(const string& filename) const;
+    bool loadFromFile(const string& filename);
     
     // Desabilita cópia e atribuição
     ProcessQueue(const ProcessQueue& other) = delete; 
