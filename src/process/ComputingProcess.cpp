@@ -27,9 +27,11 @@ bool ComputingProcess::execute() {
 }
 
 void ComputingProcess::printInfo() const {
+    cout << "=== ComputingProcess ===" << endl;
+    cout << "PID: " << getPID() << endl;
     cout << "Expressão: " << expression << endl;
 }
 
 string ComputingProcess::toString() const {
-    return "ComputingProcess: " + expression;
+    return "ComputingProcess[PID=" + to_string(getPID()) + ", Expressão=\"" + expression + "\"]";
 }

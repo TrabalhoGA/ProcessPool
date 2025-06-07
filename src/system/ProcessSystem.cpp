@@ -1,5 +1,8 @@
 #include "system/ProcessSystem.h"
 #include "process/WritingProcess.h"
+#include "process/ReadingProcess.h"
+#include "process/ComputingProcess.h"
+#include "process/PrintingProcess.h"
 #include <iostream>
 #include <limits>
 
@@ -117,11 +120,25 @@ void ProcessSystem::createWritingProcess() {
 }
 
 void ProcessSystem::createReadingProcess() {
-    cout << "Método createReadingProcess não implementado ainda." << endl;
+    cout << "\n=== Criar Processo de Leitura ===" << endl;
+    cout << "Digite o PID para o processo: ";
+    int pid = getMenuChoice();
+
+    ReadingProcess* process = new ReadingProcess(pid, &processQueue);
+    processQueue.enqueue(process);
+
+    cout << "Processo de gravação criado e adicionado à fila com PID " << pid << "." << endl;
 }
 
 void ProcessSystem::createPrintingProcess() {
-    cout << "Método createPrintingProcess não implementado ainda." << endl;
+    cout << "\n=== Criar Processo de Impressão ===" << endl;
+    cout << "Digite o PID para o processo: ";
+    int pid = getMenuChoice();
+
+    PrintingProcess* process = new PrintingProcess(pid, &processQueue);
+    processQueue.enqueue(process);
+
+    cout << "Processo de impressão criado e adicionado à fila com PID " << pid << "." << endl;
 }
 
 void ProcessSystem::executeNext() {

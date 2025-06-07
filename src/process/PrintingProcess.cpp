@@ -1,4 +1,5 @@
 #include "process/PrintingProcess.h"
+#include <sstream>
 
 using namespace std;
 
@@ -21,10 +22,23 @@ bool PrintingProcess::execute() {
 }
 
 void PrintingProcess::printInfo() const {
-    cout << "Método printInfo da classe PrintingProcess não implementado." << endl;
+    cout << "=== PrintingProcess ===" << endl;
+    cout << "PID: " << getPID() << endl;
+    if (processQueue) {
+        cout << "Tamanho atual da fila de processos: " << processQueue->getSize() << endl;
+    } else {
+        cout << "Fila de processos não definida." << endl;
+    }
 }
 
 string PrintingProcess::toString() const {
-    cout << "Método toString da classe PrintingProcess não implementado." << endl;
-    return "";
+    ostringstream oss;
+    oss << "PrintingProcess[PID=" << getPID();
+    if (processQueue) {
+        oss << ", Fila tamanho=" << processQueue->getSize();
+    } else {
+        oss << ", Fila não definida";
+    }
+    oss << "]";
+    return oss.str();
 }

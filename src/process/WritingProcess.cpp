@@ -2,6 +2,7 @@
 #include "process/WritingProcess.h"
 #include <fstream>
 #include <string>
+#include <limits>
 
 using namespace std;
 
@@ -29,6 +30,11 @@ WritingProcess::~WritingProcess() {
 bool WritingProcess::execute() {
     cout << "Digite a expressão matemática para salvar em computation.txt: ";
     string expression;
+
+    // Limpa o buffer de entrada, se necessário
+    if (cin.rdbuf()->in_avail() > 0)
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
     getline(cin, expression);
 
     writeExpression(expression);
@@ -38,10 +44,10 @@ bool WritingProcess::execute() {
 }
 
 void WritingProcess::printInfo() const {
-    cout << "Método printInfo da classe WritingProcess não implementado." << endl;
+    cout << "=== WritingProcess ===" << endl;
+    cout << "PID: " << getPID() << endl;
 }
 
 string WritingProcess::toString() const {
-    cout << "Método toString da classe WritingProcess não implementado." << endl;
-    return "";
+    return "WritingProcess[PID=" + to_string(getPID()) + "]";
 }
