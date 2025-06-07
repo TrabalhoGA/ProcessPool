@@ -27,9 +27,9 @@ void ProcessSystem::showMenu() {
     cout << "1. Criar processo" << endl;
     cout << "2. Executar próximo processo" << endl;
     cout << "3. Executar processo específico" << endl;
-    cout << "4. Imprimir fila de processos" << endl;
-    cout << "5. Salvar fila em arquivo" << endl;
-    cout << "6. Carregar fila do arquivo" << endl;
+	//cout << "4. Imprimir fila de processos" << endl; Não necessário, pois já está implementado no método PrintingProcess
+    cout << "4. Salvar fila em arquivo" << endl;
+    cout << "5. Carregar fila do arquivo" << endl;
     cout << "0. Sair" << endl;
     cout << "=============================================" << endl;
     cout << "Escolha uma opção: ";
@@ -56,13 +56,13 @@ void ProcessSystem::handleMenuChoice(int choice) {
         case 3:
             executeSpecific();
             break;
+        //case 4:
+            //printProcessQueue();
+            //break;
         case 4:
-            printProcessQueue();
-            break;
-        case 5:
             saveToFile();
             break;
-        case 6:
+        case 5:
             loadFromFile();
             break;
         case 0:

@@ -1,5 +1,5 @@
 #include "../../include/process/ComputingProcess.h"
-#include <sstream>
+#include "../../include/expression/Expression.h"
 #include <iostream>
 #include <string>
 
@@ -15,33 +15,15 @@ ComputingProcess::~ComputingProcess() {
 }
 
 bool ComputingProcess::execute() {
-    double left, right, result;
-    char op;
-    istringstream iss(expression);
-
-    if (!(iss >> left >> op >> right)) {
-        cout << "Expressão inválida: " << expression << endl;
+    Expression exprEvaluator;
+    try {
+        double result = exprEvaluator.evaluate(expression);
+        cout << expression << " = " << result << endl;
+        return true;
+    } catch (const std::exception& e) {
+        cout << "Erro ao avaliar expressão: " << e.what() << endl;
         return false;
     }
-
-    switch (op) {
-    case '+': result = left + right; break;
-    case '-': result = left - right; break;
-    case '*': result = left * right; break;
-    case '/':
-        if (right == 0) {
-            cout << "Erro: divisão por zero." << endl;
-            return false;
-        }
-        result = left / right;
-        break;
-    default:
-        cout << "Operador desconhecido: " << op << endl;
-        return false;
-    }
-
-    cout << expression << " = " << result << endl;
-    return true;
 }
 
 void ComputingProcess::printInfo() const {
@@ -50,13 +32,4 @@ void ComputingProcess::printInfo() const {
 
 string ComputingProcess::toString() const {
     return "ComputingProcess: " + expression;
-}
-
-void ComputingProcess::printInfo() const {
-    cout << "Método printInfo da classe ComputingProcess não implementado." << endl;
-}
-
-string ComputingProcess::toString() const {
-    cout << "Método toString da classe ComputingProcess não implementado." << endl;
-    return "";
 }

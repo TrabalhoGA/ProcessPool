@@ -29,6 +29,9 @@ class Expression {
         // Método principal
         double calculate() const;
 
+        // Novo método para avaliar a expressão
+        double evaluate(const string& expr);
+
         // Utilitários
         string toString() const;
         bool isValid() const;
@@ -48,4 +51,3 @@ class Expression {
 };
 
 #endif // EXPRESSION_H
-        

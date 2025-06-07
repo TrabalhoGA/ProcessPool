@@ -1,6 +1,6 @@
-#include "expression/Expression.h"
-#include <sstream>
+#include "../../include/expression/Expression.h"
 #include <stdexcept>
+#include <sstream>
 
 Expression::Expression() : operand1(0.0), operand2(0.0), operation('+') {
     // construtor padrão
@@ -81,6 +81,14 @@ void Expression::parseExpression(const string& expr) {
     if (iss >> remaining) {
         throw invalid_argument("Formato de expressão inválido! Caracteres extras encontrados.");
     }
+}
+
+double Expression::evaluate(const string& expr) {
+    parseExpression(expr); // Analisa a string e define operandos e operação
+    if (!isValid()) {
+        throw invalid_argument("Expressão inválida");
+    }
+    return calculate(); // Calcula o resultado com base nos operandos e operação
 }
 
 ostream& operator<<(ostream& os, const Expression& expr) {
