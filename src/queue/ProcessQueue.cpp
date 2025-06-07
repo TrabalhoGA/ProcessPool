@@ -77,7 +77,9 @@ Process* ProcessQueue::removeByPID(int pid) {
         return nullptr;
     }
     Process* process = current->process;
-    previous->next = current->next;
+    if (previous != nullptr) {
+        previous->next = current->next;
+    }
     if (current == rear) {
         rear = previous;
     }

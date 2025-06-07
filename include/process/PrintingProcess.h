@@ -3,12 +3,13 @@
 #define PRINTING_PROCESS_H
 
 #include "Process.h"
+#include "queue/ProcessQueue.h"
 
 using namespace std;
 
 class PrintingProcess : public Process {
     public:
-        PrintingProcess(int id);
+        PrintingProcess(int id, ProcessQueue* queue);
         virtual ~PrintingProcess();
 
         bool execute() override;
@@ -18,6 +19,7 @@ class PrintingProcess : public Process {
     protected:
 
     private:
+		ProcessQueue* processQueue;
 };
 
 #endif // PRINTING_PROCESS_H

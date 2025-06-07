@@ -2,8 +2,8 @@
 
 using namespace std;
 
-PrintingProcess::PrintingProcess(int id) : Process(id) {
-    // ctor
+PrintingProcess::PrintingProcess(int id, ProcessQueue* queue)
+    : Process(id), processQueue(queue) {
 }
 
 PrintingProcess::~PrintingProcess() {
@@ -11,8 +11,13 @@ PrintingProcess::~PrintingProcess() {
 }
 
 bool PrintingProcess::execute() {
-    cout << "Método execute da classe PrintingProcess não implementado." << endl;
-    return false;
+    if (!processQueue) {
+        cout << "Fila de processos não definida." << endl;
+        return false;
+    }
+    cout << "=== Fila de Processos ===" << endl;
+    processQueue->printQueue();
+    return true;
 }
 
 void PrintingProcess::printInfo() const {
