@@ -3,7 +3,7 @@
 #define WRITING_PROCESS_H
 
 #include "Process.h"
-#include <fstream> // Adicionado para manipulação de arquivos
+#include <fstream>
 
 
 using namespace std;
@@ -17,7 +17,7 @@ class WritingProcess : public Process {
         void printInfo() const override;
         string toString() const override;
 
-        void writeExpression(const string& expression);
+        bool writeExpression(const string& expression);
 
 
     protected:

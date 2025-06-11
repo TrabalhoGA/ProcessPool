@@ -1,5 +1,5 @@
-#include "../../include/process/ComputingProcess.h"
-#include "../../include/expression/Expression.h"
+#include "process/ComputingProcess.h"
+#include "expression/Expression.h"
 #include <iostream>
 #include <string>
 

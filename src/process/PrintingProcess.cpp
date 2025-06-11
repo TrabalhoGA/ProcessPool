@@ -16,7 +16,6 @@ bool PrintingProcess::execute() {
         cout << "Fila de processos não definida." << endl;
         return false;
     }
-    cout << "=== Fila de Processos ===" << endl;
     processQueue->printQueue();
     return true;
 }

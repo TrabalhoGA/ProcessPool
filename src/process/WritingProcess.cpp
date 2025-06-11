@@ -1,23 +1,9 @@
-// WritingProcess.cpp
 #include "process/WritingProcess.h"
 #include <fstream>
 #include <string>
 #include <limits>
 
 using namespace std;
-
-void WritingProcess::writeExpression(const string& expression) {
-    // Caminho relativo para o arquivo computation.txt na pasta /data
-    ofstream file("../data/computation.txt", ios::app);
-    if (file.is_open()) {
-        file << expression << '\n';
-        file.close();
-    }
-    else {
-        // Opcional: tratamento de erro simples
-        // Você pode adicionar logging ou lançar exceção se preferir
-    }
-}
 
 WritingProcess::WritingProcess(int id) : Process(id) {
     // ctor
@@ -27,19 +13,35 @@ WritingProcess::~WritingProcess() {
     // dtor
 }
 
+bool WritingProcess::writeExpression(const string& expression) {
+    ofstream file("data/computation.txt", ios::app);
+    if (file.is_open()) {
+        file << expression << '\n';
+        file.close();
+        return true;
+    }
+    return false;
+}
+
 bool WritingProcess::execute() {
     cout << "Digite a expressão matemática para salvar em computation.txt: ";
     string expression;
 
-    // Limpa o buffer de entrada, se necessário
-    if (cin.rdbuf()->in_avail() > 0)
+    if (cin.rdbuf()->in_avail() > 0) {
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    }
+    cin >> expression;
+    if (expression.empty()) {
+        cout << "Nenhuma expressão foi digitada." << endl;
+        return false;
+    }
 
-    getline(cin, expression);
+    if (!writeExpression(expression)) {
+        cout << "Erro ao escrever a expressão no arquivo." << endl;
+        return false;
+    }
 
-    writeExpression(expression);
-
-    cout << "Expressão salva com sucesso em /data/computation.txt." << endl;
+    cout << "Expressão salva com sucesso em computation.txt." << endl;
     return true;
 }
 

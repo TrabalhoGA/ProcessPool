@@ -4,6 +4,7 @@
 
 #include "process/Process.h"
 #include <iostream>
+#include <memory>
 
 using namespace std;
 
@@ -12,21 +13,21 @@ private:
     // Classe interna para nó da fila
     class ProcessNode {
     public:
-        Process* process;
-        ProcessNode* next;
-        ProcessNode(Process* proc) : process(proc), next(nullptr) {}
-        ~ProcessNode() { process = nullptr; next = nullptr; }
+        unique_ptr<Process> process;
+        unique_ptr<ProcessNode> next;
+        ProcessNode(unique_ptr<Process> proc) : process(move(proc)), next(nullptr) {}
+        ~ProcessNode() = default;
     };
 
-    ProcessNode* front;
+    unique_ptr<ProcessNode> front;
     ProcessNode* rear;
     int size;
+    int nextPID;
 
 public:
     ProcessQueue();
     virtual ~ProcessQueue();
-    
-    void enqueue(Process* process);
+    int enqueue(Process* process); 
     Process* dequeue();
     Process* peek() const;
     

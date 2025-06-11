@@ -1,9 +1,10 @@
 #include "queue/ProcessQueue.h"
 #include <fstream>
+#include <memory>
 
 using namespace std;
 
-ProcessQueue::ProcessQueue() : front(nullptr), rear(nullptr), size(0) {
+ProcessQueue::ProcessQueue() : front(nullptr), rear(nullptr), size(0), nextPID(1) {
     // ctor
 }
 
@@ -11,19 +12,28 @@ ProcessQueue::~ProcessQueue() {
     clear();
 }
 
-void ProcessQueue::enqueue(Process* process) {
+int ProcessQueue::enqueue(Process* process) {
     if (process == nullptr) {
         cerr << "Erro: Tentativa de adicionar processo nulo à fila." << endl;
-        return;
+        return -1;
     }
-    ProcessNode* newNode = new ProcessNode(process);
+    // Geração automática de PID único
+    int pid = nextPID;
+    while (findByPID(pid) != nullptr) {
+        pid++;
+    }
+    nextPID = pid + 1;
+    process->setPID(pid);
+    auto newNode = make_unique<ProcessNode>(unique_ptr<Process>(process));
     if (isEmpty()) {
-        front = rear = newNode;
+        front = move(newNode);
+        rear = front.get();
     } else {
-        rear->next = newNode;
-        rear = newNode;
+        rear->next = move(newNode);
+        rear = rear->next.get();
     }
     size++;
+    return pid;
 }
 
 Process* ProcessQueue::dequeue() {
@@ -31,13 +41,12 @@ Process* ProcessQueue::dequeue() {
         cerr << "Erro: Tentativa de remover de fila vazia." << endl;
         return nullptr;
     }
-    ProcessNode* nodeToRemove = front;
-    Process* process = nodeToRemove->process;
-    front = front->next;
-    if (front == nullptr) {
+    auto nodeToRemove = move(front);
+    Process* process = nodeToRemove->process.release();
+    front = move(nodeToRemove->next);
+    if (!front) {
         rear = nullptr;
     }
-    delete nodeToRemove;
     size--;
     return process;
 }
@@ -46,16 +55,16 @@ Process* ProcessQueue::peek() const {
     if (isEmpty()) {
         return nullptr;
     }
-    return front->process;
+    return front->process.get();
 }
 
 Process* ProcessQueue::findByPID(int pid) const {
-    ProcessNode* current = front;
+    ProcessNode* current = front.get();
     while (current != nullptr) {
         if (current->process->getPID() == pid) {
-            return current->process;
+            return current->process.get();
         }
-        current = current->next;
+        current = current->next.get();
     }
     return nullptr;
 }
@@ -67,25 +76,22 @@ Process* ProcessQueue::removeByPID(int pid) {
     if (front->process->getPID() == pid) {
         return dequeue();
     }
-    ProcessNode* current = front;
-    ProcessNode* previous = nullptr;
+    ProcessNode* previous = front.get();
+    ProcessNode* current = front->next.get();
     while (current != nullptr && current->process->getPID() != pid) {
         previous = current;
-        current = current->next;
+        current = current->next.get();
     }
     if (current == nullptr) {
         return nullptr;
     }
-    Process* process = current->process;
-    if (previous != nullptr) {
-        previous->next = current->next;
-    }
+    unique_ptr<ProcessNode> nodeToRemove = move(previous->next);
+    previous->next = move(nodeToRemove->next);
     if (current == rear) {
         rear = previous;
     }
-    delete current;
     size--;
-    return process;
+    return nodeToRemove->process.release();
 }
 
 bool ProcessQueue::removeSpecific(Process* process) {
@@ -105,8 +111,7 @@ int ProcessQueue::getSize() const {
 
 void ProcessQueue::clear() {
     while (!isEmpty()) {
-        Process* process = dequeue();
-        delete process;
+        unique_ptr<Process> process(dequeue());
     }
 }
 
@@ -118,13 +123,13 @@ void ProcessQueue::printQueue() const {
     cout << "=== FILA DE PROCESSOS ===" << endl;
     cout << "Total de processos: " << size << endl;
     cout << "-------------------------" << endl;
-    ProcessNode* current = front;
+    ProcessNode* current = front.get();
     int position = 1;
     while (current != nullptr) {
         cout << "Posição " << position << ": ";
         current->process->printInfo();
         cout << endl;
-        current = current->next;
+        current = current->next.get();
         position++;
     }
     cout << "=========================" << endl;
