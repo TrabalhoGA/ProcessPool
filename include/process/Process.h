@@ -15,6 +15,7 @@ class Process {
         virtual bool execute() = 0;
         virtual void printInfo() const = 0;
         virtual string toString() const = 0;
+        virtual string getType() const = 0;
 
         int getPID() const { return pid; }
         void setPID(int id) { pid = id; }

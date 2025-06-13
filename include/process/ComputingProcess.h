@@ -14,6 +14,9 @@ class ComputingProcess : public Process {
         virtual bool execute() override;
         void printInfo() const override;
         string toString() const override;
+        string getType() const override { return "ComputingProcess"; }
+
+        string getExpression() const { return expression; }
 
     protected:
 

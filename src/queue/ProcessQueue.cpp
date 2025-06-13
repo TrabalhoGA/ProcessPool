@@ -1,6 +1,11 @@
 #include "queue/ProcessQueue.h"
+#include "process/ComputingProcess.h"
+#include "process/WritingProcess.h"
+#include "process/ReadingProcess.h"
+#include "process/PrintingProcess.h"
 #include <fstream>
 #include <memory>
+#include <sstream>
 
 using namespace std;
 
@@ -136,11 +141,73 @@ void ProcessQueue::printQueue() const {
 }
 
 bool ProcessQueue::saveToFile(const string& filename) const {
-    cout << "Método saveToFile não implementado ainda." << endl;
-    return false;
+    ofstream file(filename);
+    if (!file.is_open()) {
+        cerr << "Erro ao abrir arquivo para escrita: " << filename << endl;
+        return false;
+    }
+    ProcessNode* current = front.get();
+    while (current != nullptr) {
+        Process* p = current->process.get();
+        string type = p->getType();
+        if (type == "ComputingProcess") {
+            file << "ComputingProcess " << static_cast<ComputingProcess*>(p)->getExpression();
+        } else if (type == "WritingProcess") {
+            file << "WritingProcess";
+        } else if (type == "ReadingProcess") {
+            file << "ReadingProcess";
+        } else if (type == "PrintingProcess") {
+            file << "PrintingProcess";
+        } else {
+            file << "Unknown";
+        }
+        file << '\n';
+        current = current->next.get();
+    }
+    file.close();
+    return true;
 }
 
 bool ProcessQueue::loadFromFile(const string& filename) {
-    cout << "Método loadFromFile não implementado ainda." << endl;
-    return false;
+    ifstream file(filename);
+    if (!file.is_open()) {
+        cerr << "Erro ao abrir arquivo para leitura: " << filename << endl;
+        return false;
+    }
+    clear();
+    string line;
+    int linhasInvalidas = 0;
+    while (getline(file, line)) {
+        istringstream iss(line);
+        string type;
+        iss >> type;
+        if (type == "ComputingProcess") {
+            string expr;
+            getline(iss, expr);
+            if (!expr.empty() && expr[0] == ' ') expr = expr.substr(1);
+            if (!expr.empty() && expr.front() == '"') expr = expr.substr(1, expr.size()-2);
+            if (!expr.empty()) {
+                ComputingProcess* p = new ComputingProcess(-1, expr);
+                enqueue(p);
+            } else {
+                linhasInvalidas++;
+            }
+        } else if (type == "WritingProcess") {
+            WritingProcess* p = new WritingProcess(-1);
+            enqueue(p);
+        } else if (type == "ReadingProcess") {
+            ReadingProcess* p = new ReadingProcess(-1, this);
+            enqueue(p);
+        } else if (type == "PrintingProcess") {
+            PrintingProcess* p = new PrintingProcess(-1, this);
+            enqueue(p);
+        } else {
+            linhasInvalidas++;
+        }
+    }
+    file.close();
+    if (linhasInvalidas > 0) {
+        cerr << "Aviso: " << linhasInvalidas << " linha(s) inválida(s) ignorada(s) ao carregar a fila." << endl;
+    }
+    return true;
 }

@@ -15,6 +15,7 @@ class PrintingProcess : public Process {
         bool execute() override;
         void printInfo() const override;
         string toString() const override;
+        string getType() const override { return "PrintingProcess"; }
 
     protected:
 

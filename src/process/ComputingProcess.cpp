@@ -18,7 +18,10 @@ bool ComputingProcess::execute() {
     Expression exprEvaluator;
     try {
         double result = exprEvaluator.evaluate(expression);
+        cout << "\n======== ComputingProcess =======" << endl;
+        cout << "Resultado da expressão: ";
         cout << expression << " = " << result << endl;
+        cout << "=================================" << endl;
         return true;
     } catch (const std::exception& e) {
         cout << "Erro ao avaliar expressão: " << e.what() << endl;

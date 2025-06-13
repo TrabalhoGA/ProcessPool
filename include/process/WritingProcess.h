@@ -16,6 +16,7 @@ class WritingProcess : public Process {
         bool execute() override;
         void printInfo() const override;
         string toString() const override;
+        string getType() const override { return "WritingProcess"; }
 
         bool writeExpression(const string& expression);
 

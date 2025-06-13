@@ -31,7 +31,6 @@ class ProcessSystem {
         void executeSpecific();
         void saveToFile();
         void loadFromFile();
-        void printProcessQueue();
         void exitSystem();
 
         // Métodos auxiliares

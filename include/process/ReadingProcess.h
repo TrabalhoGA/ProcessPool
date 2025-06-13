@@ -14,6 +14,7 @@ class ReadingProcess : public Process {
         virtual bool execute() override;
         void printInfo() const override;
         string toString() const override;
+        string getType() const override { return "ReadingProcess"; }
 
     protected:
 
