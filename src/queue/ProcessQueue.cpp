@@ -63,6 +63,22 @@ Process* ProcessQueue::peek() const {
     return front->process.get();
 }
 
+Process* ProcessQueue::getProcessAt(int index) const {
+    if (index < 0 || index >= size) {
+        return nullptr;
+    }
+    ProcessNode* current = front.get();
+    int count = 0;
+    while (current != nullptr && count < index) {
+        current = current->next.get();
+        count++;
+    }
+    if (current) {
+        return current->process.get();
+    }
+    return nullptr;
+}
+
 Process* ProcessQueue::findByPID(int pid) const {
     ProcessNode* current = front.get();
     while (current != nullptr) {

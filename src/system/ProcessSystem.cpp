@@ -5,6 +5,7 @@
 #include "process/PrintingProcess.h"
 #include <iostream>
 #include <limits>
+#include <iomanip>
 
 using namespace std;
 
@@ -31,8 +32,9 @@ void ProcessSystem::showMenu() {
     cout << "1. Criar processo" << endl;
     cout << "2. Executar próximo processo" << endl;
     cout << "3. Executar processo específico" << endl;
-    cout << "4. Salvar fila em arquivo" << endl;
-    cout << "5. Carregar fila do arquivo" << endl;
+    cout << "4. Exibir gerenciador de processos" << endl;
+    cout << "5. Salvar fila em arquivo" << endl;
+    cout << "6. Carregar fila do arquivo" << endl;
     cout << "0. Sair" << endl;
     cout << "============================================" << endl;
     cout << "Escolha uma opção: ";
@@ -61,9 +63,12 @@ void ProcessSystem::handleMenuChoice(int choice) {
             executeSpecific();
             break;
         case 4:
-            saveToFile();
+            showTaskManager();
             break;
         case 5:
+            saveToFile();
+            break;
+        case 6:
             loadFromFile();
             break;
         case 0:
@@ -145,6 +150,33 @@ void ProcessSystem::createPrintingProcess() {
     PrintingProcess* process = new PrintingProcess(-1, &processQueue); 
     int pid = processQueue.enqueue(process);
     cout << "Processo de impressão criado e adicionado à fila com PID " << pid << ". Digite ENTER para continuar." << endl;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cin.get();
+}
+
+void ProcessSystem::showTaskManager() {
+    cout << "\n+---------------------- Gerenciador de Processos --------------------+" << endl;
+    cout << "| Posição | PID  | Tipo de Processo       | Expressão                |" << endl;
+    cout << "+---------+------+------------------------+--------------------------+" << endl;
+    if (processQueue.isEmpty()) {
+        cout << "|         |      | Fila vazia!           |                          |" << endl;
+    } else {
+        for (int i = 0; i < processQueue.getSize(); ++i) {
+            Process* process = processQueue.getProcessAt(i);
+            if (process) {
+                string expression = static_cast<ComputingProcess*>(process)->getExpression();
+                if (expression.empty()) {
+                    expression = "N/A";
+                }
+                cout << "| " << setw(7) << i + 1 << " | "
+                     << setw(4) << process->getPID() << " | "
+                     << setw(22) << process->getType() << " | "
+                     << setw(24) << expression << " |" << endl;
+            }
+        }
+    }
+    cout << "+---------+------+------------------------+--------------------------+" << endl;
+    cout << "\nDigite ENTER para continuar." << endl;
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
     cin.get();
 }

@@ -3,7 +3,7 @@
 #define READING_PROCESS_H
 
 #include "Process.h"
-#include "../queue/ProcessQueue.h"
+#include "queue/ProcessQueue.h"
 
 using namespace std;
 class ReadingProcess : public Process {

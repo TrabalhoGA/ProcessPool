@@ -38,6 +38,7 @@ class ProcessSystem {
         void createWritingProcess();
         void createReadingProcess();
         void createPrintingProcess();
+        void showTaskManager();
 
         // Outros
         void clearScreen();

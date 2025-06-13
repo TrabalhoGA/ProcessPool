@@ -30,6 +30,7 @@ public:
     int enqueue(Process* process); 
     Process* dequeue();
     Process* peek() const;
+    Process* getProcessAt(int index) const;
     
     Process* findByPID(int pid) const;
     Process* removeByPID(int pid);

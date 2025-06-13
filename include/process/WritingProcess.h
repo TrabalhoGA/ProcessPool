@@ -5,7 +5,6 @@
 #include "Process.h"
 #include <fstream>
 
-
 using namespace std;
 
 class WritingProcess : public Process {
