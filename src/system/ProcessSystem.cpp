@@ -35,6 +35,7 @@ void ProcessSystem::showMenu() {
     cout << "4. Exibir gerenciador de processos" << endl;
     cout << "5. Salvar fila em arquivo" << endl;
     cout << "6. Carregar fila do arquivo" << endl;
+    cout << "7. Excluir processo específico" << endl;
     cout << "0. Sair" << endl;
     cout << "============================================" << endl;
     cout << "Escolha uma opção: ";
@@ -70,6 +71,9 @@ void ProcessSystem::handleMenuChoice(int choice) {
             break;
         case 6:
             loadFromFile();
+            break;
+        case 7:
+            removeProcess();
             break;
         case 0:
             exitSystem();
@@ -155,30 +159,58 @@ void ProcessSystem::createPrintingProcess() {
 }
 
 void ProcessSystem::showTaskManager() {
-    cout << "\n+---------------------- Gerenciador de Processos --------------------+" << endl;
-    cout << "| Posição | PID  | Tipo de Processo       | Expressão                |" << endl;
-    cout << "+---------+------+------------------------+--------------------------+" << endl;
-    if (processQueue.isEmpty()) {
-        cout << "|         |      | Fila vazia!           |                          |" << endl;
-    } else {
-        for (int i = 0; i < processQueue.getSize(); ++i) {
-            Process* process = processQueue.getProcessAt(i);
-            if (process) {
-                string expression = static_cast<ComputingProcess*>(process)->getExpression();
-                if (expression.empty()) {
-                    expression = "N/A";
+    int choice = -1;
+    while (choice != 0) {
+        clearScreen();
+        cout << "\n+---------------------- Gerenciador de Processos --------------------+" << endl;
+        cout << "| Posição | PID  | Tipo de Processo       | Expressão                |" << endl;
+        cout << "+---------+------+------------------------+--------------------------+" << endl;
+        if (processQueue.isEmpty()) {
+            cout << "|         |      | Fila vazia!            |                          |" << endl;
+        } else {
+            for (int i = 0; i < processQueue.getSize(); ++i) {
+                Process* process = processQueue.getProcessAt(i);
+                if (process) {
+                    string expression;
+                    if (process->getType()=="ComputingProcess"){
+                        try {
+                            expression = static_cast<ComputingProcess*>(process)->getExpression();
+                        } catch (const std::bad_cast& e) {
+                            expression = "N/A";
+                        }
+                    } else {
+                        expression = "N/A";
+                    }
+                    cout << "| " << setw(7) << i + 1 << " | "
+                        << setw(4) << process->getPID() << " | "
+                        << setw(22) << process->getType() << " | "
+                        << setw(24) << expression << " |" << endl;
                 }
-                cout << "| " << setw(7) << i + 1 << " | "
-                     << setw(4) << process->getPID() << " | "
-                     << setw(22) << process->getType() << " | "
-                     << setw(24) << expression << " |" << endl;
             }
         }
+        cout << "+---------+------+------------------------+--------------------------+" << endl;
+        cout << "| Operações disponíveis:                                             |" << endl;
+        if (!processQueue.isEmpty()) {
+            cout << "| 1. Executar processo                                               |" << endl;
+            cout << "| 2. Excluir processo                                                |" << endl;
+        }
+        cout << "| 0. Voltar ao menu principal                                        |" << endl;
+        cout << "+---------------------------------------------------------------------+" << endl;
+        cout << "Digite uma opção: ";
+        choice = getMenuChoice();
+        switch (choice) {
+            case 1:
+                if(!processQueue.isEmpty()) executeSpecific();
+                break;
+            case 2: 
+                if(!processQueue.isEmpty()) removeProcess();
+                break;
+            case 0:
+                return;
+            default:
+                cout << "Opção inválida! Tente novamente." << endl;
+        }
     }
-    cout << "+---------+------+------------------------+--------------------------+" << endl;
-    cout << "\nDigite ENTER para continuar." << endl;
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
-    cin.get();
 }
 
 void ProcessSystem::executeNext() {
@@ -219,6 +251,27 @@ void ProcessSystem::executeSpecific() {
         else {
             cout << "Erro ao executar o processo " << pid << "!" << endl;
         }
+        delete process;
+    } else {
+        cout << "Processo com PID " << pid << " não encontrado!" << endl;
+    }
+    cout << "Digite ENTER para continuar." << endl;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cin.get();
+}
+
+void ProcessSystem::removeProcess() {
+    if (processQueue.isEmpty()) {
+        cout << "Fila vazia! Nenhum processo para remover. Digite ENTER para continuar." << endl;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cin.get();
+        return;
+    }
+    cout << "Digite o PID do processo a ser removido: ";
+    int pid = getMenuChoice();
+    Process* process = processQueue.removeByPID(pid);
+    if (process) {
+        cout << "Processo com PID " << pid << " removido com sucesso!" << endl;
         delete process;
     } else {
         cout << "Processo com PID " << pid << " não encontrado!" << endl;

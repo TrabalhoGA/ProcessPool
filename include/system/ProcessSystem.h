@@ -29,6 +29,7 @@ class ProcessSystem {
         void createProcess();
         void executeNext();
         void executeSpecific();
+        void removeProcess();
         void saveToFile();
         void loadFromFile();
         void exitSystem();
