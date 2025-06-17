@@ -121,17 +121,17 @@ void ProcessSystem::createComputingProcess() {
     cout << "Digite a expressão matemática do processo: " << endl;
     string expression;
     cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Limpa o buffer
-    cin >> expression;
+    getline(cin, expression);
     if (expression.empty()) {
         cout << "Expressão vazia! Processo não criado." << endl;
         return;
     }
+	expression.erase(remove_if(expression.begin(), expression.end(), ::isspace), expression.end()); // Remove espaços em branco para a classe Expression
     ComputingProcess* process = new ComputingProcess(-1, expression); // PID será atribuído pela fila
     int pid = processQueue.enqueue(process);
     cout << "============================================" << endl;
     cout << "Processo de cálculo criado e adicionado à fila com PID " << pid << ". Digite ENTER para continuar." << endl;
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
-    cin.get();
 }
 
 void ProcessSystem::createWritingProcess() {

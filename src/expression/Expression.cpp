@@ -1,4 +1,4 @@
-#include "../../include/expression/Expression.h"
+#include "expression/Expression.h"
 #include <stdexcept>
 #include <sstream>
 
