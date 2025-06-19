@@ -117,7 +117,7 @@ void ProcessSystem::createProcess() {
 }
 
 void ProcessSystem::createComputingProcess() {
-    cout << "\n========= Create Computing Process =========" << endl; //TODO: replicar cabeçalho para todos os métodos de criação de processo
+    cout << "\n========= Create Computing Process =========" << endl;
     cout << "Digite a expressão matemática do processo: " << endl;
     string expression;
     cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Limpa o buffer
@@ -135,25 +135,28 @@ void ProcessSystem::createComputingProcess() {
 }
 
 void ProcessSystem::createWritingProcess() {
+	cout << "\n========= Create Writing Process =========" << endl;
     WritingProcess* process = new WritingProcess(-1); 
     int pid = processQueue.enqueue(process);
-    cout << "Processo de gravação criado e adicionado à fila com PID " << pid << ". Digite ENTER para continuar." << endl;
+    cout << "\nProcesso de gravação criado e adicionado à fila com PID " << pid << ". Digite ENTER para continuar." << endl;
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
     cin.get();
 }
 
 void ProcessSystem::createReadingProcess() {
+	cout << "\n========= Create Reading Process =========" << endl;
     ReadingProcess* process = new ReadingProcess(-1, &processQueue); 
     int pid = processQueue.enqueue(process);
-    cout << "Processo de leitura criado e adicionado à fila com PID " << pid << ". Digite ENTER para continuar." << endl;
+    cout << "\nProcesso de leitura criado e adicionado à fila com PID " << pid << ". Digite ENTER para continuar." << endl;
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
     cin.get();
 }
 
 void ProcessSystem::createPrintingProcess() {
+	cout << "\n========= Create Printing Process =========" << endl;
     PrintingProcess* process = new PrintingProcess(-1, &processQueue); 
     int pid = processQueue.enqueue(process);
-    cout << "Processo de impressão criado e adicionado à fila com PID " << pid << ". Digite ENTER para continuar." << endl;
+    cout << "\nProcesso de impressão criado e adicionado à fila com PID " << pid << ". Digite ENTER para continuar." << endl;
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
     cin.get();
 }
@@ -214,8 +217,9 @@ void ProcessSystem::showTaskManager() {
 }
 
 void ProcessSystem::executeNext() {
+	cout << "\n=========== Execute Next Process ===========" << endl;
     if (processQueue.isEmpty()) {
-        cout << "Fila vazia! Nenhum processo para executar. Digite ENTER para continuar." << endl;
+        cout << "\nFila vazia! Nenhum processo para executar. Digite ENTER para continuar." << endl;
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
         cin.get();
         return;
@@ -235,6 +239,7 @@ void ProcessSystem::executeNext() {
 }
 
 void ProcessSystem::executeSpecific() {
+	cout << "\n========= Execute Specific Process =========" << endl;
     if (processQueue.isEmpty()) {
         cout << "Fila vazia! Nenhum processo para executar. Digite ENTER para continuar." << endl;
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -261,6 +266,7 @@ void ProcessSystem::executeSpecific() {
 }
 
 void ProcessSystem::removeProcess() {
+	cout << "\n============ Remove Process ============" << endl;
     if (processQueue.isEmpty()) {
         cout << "Fila vazia! Nenhum processo para remover. Digite ENTER para continuar." << endl;
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -282,6 +288,7 @@ void ProcessSystem::removeProcess() {
 }
 
 void ProcessSystem::saveToFile() {
+	cout << "\n============ Save Queue to File ============" << endl;
     cout << "Digite o nome do arquivo: ";
     string filename;
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -297,6 +304,7 @@ void ProcessSystem::saveToFile() {
 }
 
 void ProcessSystem::loadFromFile() {
+	cout << "\n=========== Load Queue from File ===========" << endl;
     cout << "Digite o nome do arquivo: ";
     string filename;
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
