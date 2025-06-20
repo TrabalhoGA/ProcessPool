@@ -2,6 +2,7 @@
 #include <fstream>
 #include <string>
 #include <limits>
+#include <iomanip>
 
 using namespace std;
 
@@ -30,11 +31,12 @@ bool WritingProcess::execute() {
     if (cin.rdbuf()->in_avail() > 0) {
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
-    cin >> expression;
+    getline(cin, expression);
     if (expression.empty()) {
-        cout << "Nenhuma expressão foi digitada." << endl;
+        cout << "Expressão vazia! Processo não criado." << endl;
         return false;
     }
+    expression.erase(remove_if(expression.begin(), expression.end(), ::isspace), expression.end());
 
     if (!writeExpression(expression)) {
         cout << "Erro ao escrever a expressão no arquivo." << endl;
@@ -42,6 +44,7 @@ bool WritingProcess::execute() {
     }
 
     cout << "Expressão salva com sucesso em computation.txt." << endl;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     return true;
 }
 
