@@ -10,7 +10,7 @@
 
 using namespace std;
 
-ProcessSystem::ProcessSystem() : running(false) {
+ProcessSystem::ProcessSystem() : taskManager(&processQueue), running(false) {
     // ctor
 }
 
@@ -65,7 +65,7 @@ void ProcessSystem::handleMenuChoice(int choice) {
             executeSpecific();
             break;
         case 4:
-            showTaskManager();
+            taskManager.show();
             break;
         case 5:
             saveToFile();
@@ -160,61 +160,6 @@ void ProcessSystem::createPrintingProcess() {
     cout << "\nProcesso de impressão criado e adicionado à fila com PID " << pid << ". Digite ENTER para continuar." << endl;
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
     cin.get();
-}
-
-void ProcessSystem::showTaskManager() {
-    int choice = -1;
-    while (choice != 0) {
-        clearScreen();
-        cout << "\n+---------------------- Gerenciador de Processos --------------------+" << endl;
-        cout << "| Posição | PID  | Tipo de Processo       | Expressão                |" << endl;
-        cout << "+---------+------+------------------------+--------------------------+" << endl;
-        if (processQueue.isEmpty()) {
-            cout << "|         |      | Fila vazia!            |                          |" << endl;
-        } else {
-            for (int i = 0; i < processQueue.getSize(); ++i) {
-                Process* process = processQueue.getProcessAt(i);
-                if (process) {
-                    string expression;
-                    if (process->getType()=="ComputingProcess"){
-                        try {
-                            expression = static_cast<ComputingProcess*>(process)->getExpression();
-                        } catch (const std::bad_cast& e) {
-                            expression = "N/A";
-                        }
-                    } else {
-                        expression = "N/A";
-                    }
-                    cout << "| " << setw(7) << i + 1 << " | "
-                        << setw(4) << process->getPID() << " | "
-                        << setw(22) << process->getType() << " | "
-                        << setw(24) << expression << " |" << endl;
-                }
-            }
-        }
-        cout << "+---------+------+------------------------+--------------------------+" << endl;
-        cout << "| Operações disponíveis:                                             |" << endl;
-        if (!processQueue.isEmpty()) {
-            cout << "| 1. Executar processo                                               |" << endl;
-            cout << "| 2. Excluir processo                                                |" << endl;
-        }
-        cout << "| 0. Voltar ao menu principal                                        |" << endl;
-        cout << "+---------------------------------------------------------------------+" << endl;
-        cout << "Digite uma opção: ";
-        choice = getMenuChoice();
-        switch (choice) {
-            case 1:
-                if(!processQueue.isEmpty()) executeSpecific();
-                break;
-            case 2: 
-                if(!processQueue.isEmpty()) removeProcess();
-                break;
-            case 0:
-                return;
-            default:
-                cout << "Opção inválida! Tente novamente." << endl;
-        }
-    }
 }
 
 void ProcessSystem::executeNext() {

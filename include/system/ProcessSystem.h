@@ -3,6 +3,7 @@
 #define PROCESS_SYSTEM_H
 
 #include "queue/ProcessQueue.h"
+#include "system/TaskManager.h"
 #include <string>
 
 using namespace std;
@@ -18,6 +19,7 @@ class ProcessSystem {
 
     private:
         ProcessQueue processQueue;
+        TaskManager taskManager;
         bool running;
 
         // Menu
@@ -39,7 +41,6 @@ class ProcessSystem {
         void createWritingProcess();
         void createReadingProcess();
         void createPrintingProcess();
-        void showTaskManager();
 
         // Outros
         void clearScreen();
