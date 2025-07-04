@@ -4,7 +4,9 @@
 #include <string>
 #include <iostream>
 #include <sys/stat.h>
-#include <direct.h>
+#ifdef _WIN32
+    #include <direct.h>
+#endif
 
 using namespace std;
 
